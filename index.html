@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorthWords Bot</title>
+</head>
+<body>
+    <h1>WorthWords Bot</h1>
+    <textarea id="input" rows="4" cols="50" placeholder="Ask a Romantic a question..."></textarea><br>
+    <button onclick="sendMessage()">Send</button>
+    <p id="response"></p>
+
+    <script>
+        async function sendMessage() {
+            const message = document.getElementById('input').value;
+            const apiKey = 'sk-ZNQwE2crte42k0b8BbbCzqWDxmuyUdJO3gLO0aMGQqT3BlbkFJEp_SL1T3cAMzGOfodmbJK9kVHiJexbMPQABuGOKC4A'; // replace this with your actual API key
+
+            const response = await fetch('https://api.openai.com/v1/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: 'gpt-4', // or whichever model you're using
+                    prompt: message,
+                    max_tokens: 100
+                })
+            });
+
+            const data = await response.json();
+            document.getElementById('response').innerText = data.choices[0].text;
+        }
+    </script>
+</body>
+</html>
